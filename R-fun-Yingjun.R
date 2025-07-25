@@ -1,60 +1,57 @@
 1.1
 a <- data.frame(
-  a1 = c(2，4，6）
-  a2 = c(3，5，8）
-  a3 = c(4，1，9）
+  a1 = c(2, 4, 6),
+  a2 = c(3, 5, 8),
+  a3 = c(4, 1, 9)
 )
-头(a)
+head(a)
 1.2
 pmin(a$a1, a$a2, a$a3)
 1.3
-pmin_apply <- 函数(...) {
+pmin_apply <- function(...) {
   mat <- do.call(cbind, list(...))
-  应用矩阵，1，最小值
+  apply(mat, 1, min)
 }
-结果 <- pmin_apply(a$a1, a$a2, a$a3)
-cat(
+result <- pmin_apply(a$a1, a$a2, a$a3)
+cat("pmin_apply的结果：", result, "\n") 
 1.4
-pmin_for <- 函数(...) {
+pmin_for <- function(...) {
   vecs <- list(...)
   n <- length(vecs[[1]])
   res <- numeric(n)
-  对于 (i 在 1:n) {
+  for (i in 1:n) {
     temp <- numeric(length(vecs))
-    对于 (j 在 1:长度(vecs)) {
+    for (j in 1:length(vecs)) {
       temp[j] <- vecs[[j]][i]
     }
     res[i] <- min(temp)
   }
-  结果
+  res
 }
 1.5
-结果 <- 基准::标记(
-  + 基础 = pmin(a$a1, a$a2, a$a3),
+result <- bench::mark(
+  +     base = pmin(a$a1, a$a2, a$a3),
   +     pmin_apply = pmin_apply(a),
-  + pmin_for = pmin_for(a)
-打印结果
+  +     pmin_for = pmin_for(a) )
+print(result)
 2.1
 b1 <- data.frame(   name = c("文", "颜", "唐", "黄"),   score = c(95, 96, 97, 98) )
-  打印(b1)
-  b2 <- data.frame(
-  name_b2 = c("文", "颜")
-  github = c("uuu1016", "yanyutong111")
-)
-  打印(b2)
+  print(b1)
+  b2 <- data.frame(   name_b2 = c("文", "颜"),   github = c("uuu1016","yanyutong111") )
+  print(b2)
 2.2
 merged_data <- merge(
   x = b1,
-  y = b2
-  by.x = "name_b1"
-  by.y = "name_b2"
+  y = b2,
+  by.x = "name_b1",
+  by.y = "name_b2",
   all.y = TRUE
 )
-打印(合并数据)
+print(merged_data)
 2.3
 inner_join_result <- b1 %>%
-  内连接(b2, 按照 = c("name_b1" = "name_b2"))
-打印(内连接结果)
+  inner_join(b2, by = c("name_b1" = "name_b2"))
+print(inner_join_result)
 2.4
 inner_merge <- `%merge%`(b1, b2, by.x = "name_b1", by.y = "name_b2")
-打印(内合并)
+print(inner_merge)
